@@ -19,7 +19,7 @@ class CTimeEnv:public CEnv
 	
 
 	
-}
+};
 
 
 #endif // time_env.h

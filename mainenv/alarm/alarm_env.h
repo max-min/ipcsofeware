@@ -17,7 +17,7 @@ class CAlarmEnv:public CEnv
 		void startEnv();
 		void stopEnv();
 	
-}
+};
 
 
 #endif // alarm_env.h

@@ -24,7 +24,7 @@ class CMainEnv
 
 	private:
 		std::list<CEnv*> m_envList;		
-}
+};
 
 
 

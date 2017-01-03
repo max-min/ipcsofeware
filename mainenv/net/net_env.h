@@ -9,7 +9,7 @@ class CNetEnv:public CEnv
 		static CNetEnv* GetInstance();
 		static void   ReleaseInstance();
 	private:
-		CLogEnv();
+		CNetEnv();
 		virtual ~CNetEnv();
 		static CNetEnv* m_cNetEnvIns;
 	public:
@@ -18,7 +18,7 @@ class CNetEnv:public CEnv
 	
 
 	
-}
+};
 
 
 #endif // net_env.h

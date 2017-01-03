@@ -1,6 +1,10 @@
 #ifndef __PARAM_ENV_H__
 #define __PARAM_ENV_H__
 
+
+//#include <sys/types.h>
+//#include <sys/stat.h>
+//#include <fcntl.h>
 #include "env.h"
 
 class CParamEnv:public CEnv
@@ -17,8 +21,8 @@ class CParamEnv:public CEnv
 		void stopEnv();
 	
 	private:
-		FILE* m_paramFd;
+//		FILE* m_paramFd;
 	
-}
+};
 
 #endif // param_env.h

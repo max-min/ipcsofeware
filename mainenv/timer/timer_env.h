@@ -29,7 +29,7 @@ class CTimerEnv:public CEnv
 		//pthread_cond_t timer_cond;
 		//std::map<long, int> m_timerMap;
 	
-}
+};
 
 
 

@@ -14,6 +14,6 @@ class CEnv
 	public:
 		virtual void startEnv() = 0;
 		virtual void stopEnv()= 0;
-}
+};
 
 #endif // env.h

@@ -15,7 +15,7 @@ class CCodecEnv:public CEnv
 		void startEnv();
 		void stopEnv();
 	
-}
+};
 
 
 

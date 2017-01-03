@@ -1,0 +1,22 @@
+./obj/.: .
+	g++  $(CFLAGS)  -c -o $@ $^
+./obj/mainenv: ./mainenv
+	g++  $(CFLAGS)  -c -o $@ $^
+./obj/alarm: ./mainenv/alarm
+	g++  $(CFLAGS)  -c -o $@ $^
+./obj/codec: ./mainenv/codec
+	g++  $(CFLAGS)  -c -o $@ $^
+./obj/log: ./mainenv/log
+	g++  $(CFLAGS)  -c -o $@ $^
+./obj/net: ./mainenv/net
+	g++  $(CFLAGS)  -c -o $@ $^
+./obj/other: ./mainenv/other
+	g++  $(CFLAGS)  -c -o $@ $^
+./obj/param: ./mainenv/param
+	g++  $(CFLAGS)  -c -o $@ $^
+./obj/server: ./mainenv/server
+	g++  $(CFLAGS)  -c -o $@ $^
+./obj/time: ./mainenv/time
+	g++  $(CFLAGS)  -c -o $@ $^
+./obj/timer_env.o: ./mainenv/timer/timer_env.cpp
+	g++  $(CFLAGS)  -c -o $@ $^

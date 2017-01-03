@@ -1,4 +1,4 @@
-#include "main_env.h"
+#include "mainenv.h"
 #include "param_env.h"
 #include "net_env.h"
 #include "log_env.h"
@@ -6,7 +6,7 @@
 #include "timer_env.h"
 #include "serv_env.h"
 #include "other_env.h"
-#include "codes_env.h"
+#include "codec_env.h"
 #include "alarm_env.h"
 
 
@@ -61,7 +61,7 @@ void CMainEnv::InitEnvPoint()
 	// net server 
 	m_envList.push_back(CServEnv::GetInstance());
 	// other server
-	m_envList.push_back(COthersEnv::GetInstance());						
+//	m_envList.push_back(COthersEnv::GetInstance());						
 }
 
 void CMainEnv::startMainEnv()

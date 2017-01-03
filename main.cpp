@@ -1,6 +1,6 @@
 
+#include <stdio.h>
 #include "mainenv.h"
-
 
 
 int main(void)
@@ -9,7 +9,7 @@ int main(void)
 	CMainEnv::GetInstance()->InitEnvPoint();
 	CMainEnv::GetInstance()->startMainEnv();
 
-	char c = getc();
+	char c = getchar();
 
 	if( c== 'q' || c == 'e')
 	{

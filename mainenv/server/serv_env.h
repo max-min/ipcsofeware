@@ -19,7 +19,7 @@ class CServEnv:public CEnv
 	
 
 	
-}
+};
 
 
 

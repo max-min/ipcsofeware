@@ -19,7 +19,7 @@ class COthersEnv:public CEnv
 	
 
 	
-}
+};
 
 
 

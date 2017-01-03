@@ -36,9 +36,9 @@ void CParamEnv::ReleaseInstance()
 void CParamEnv::startEnv()
 {
 #if SIMULATOR_FLAG 
-	m_paramFd = open("param.conf", "rw+")
+//	m_paramFd = open("param.conf", "rw+")
 #else 
-	m_paramFd = open("param.conf", "rw+");
+//	m_paramFd = open("param.conf", "rw+");
 #endif 
 	
 }
@@ -47,6 +47,6 @@ void CParamEnv::startEnv()
 void CParamEnv::stopEnv()
 {
 
-	close(m_paramFd);
+//	close(m_paramFd);
 }
 

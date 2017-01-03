@@ -1,9 +1,10 @@
 #ifndef __LOG_ENV_H__
 #define __LOG_ENV_H__
 
+
 #include "env.h"
 
-class CNetEnv:public CEnv
+class CLogEnv:public CEnv
 {
 	public:
 		static CLogEnv* GetInstance();
@@ -17,9 +18,9 @@ class CNetEnv:public CEnv
 		void stopEnv();
 	
 	private:
-		FILE* m_logFd;
+//		FILE* m_logFd;
 	
-}
+};
 
 
 #endif // log_env.h
