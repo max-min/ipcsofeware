@@ -3,7 +3,6 @@
 
 #include "env.h"
 
-
 class CParamEnv:public CEnv
 {
 	public:
@@ -17,7 +16,8 @@ class CParamEnv:public CEnv
 		void startEnv();
 		void stopEnv();
 	
-
+	private:
+		FILE* m_paramFd;
 	
 }
 

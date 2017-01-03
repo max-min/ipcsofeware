@@ -1,6 +1,10 @@
 #ifndef __ENV_H__
 #define __ENV_H__
 
+
+
+#define SIMULATOR_FLAG 1
+
 class CEnv
 {
 	public:

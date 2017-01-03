@@ -7,6 +7,7 @@ CLogEnv* CLogEnv::m_cLogEnvIns = NULL;
 
 CLogEnv::CLogEnv()
 {
+	m_logFd = NULL;
 }
 
 CLogEnv::~CLogEnv()
@@ -35,12 +36,19 @@ void CLogEnv::ReleaseInstance()
 
 void CLogEnv::startEnv()
 {
-
+#if SIMULATOR_FLAG
+	m_logFd = open("ipcsoftware.log", "w+");
+#else 
+#endif 
 	
 }
 
 
 void CLogEnv::stopEnv()
 {
+#if SIMULATOR_FLAG
+		close(m_logFd);
+#else 
+#endif 
 
 }

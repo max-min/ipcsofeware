@@ -16,11 +16,10 @@ class CNetEnv:public CEnv
 		void startEnv();
 		void stopEnv();
 	
-
+	private:
+		FILE* m_logFd;
 	
 }
-
-
 
 
 #endif // log_env.h

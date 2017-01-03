@@ -30,15 +30,46 @@ void CTimerEnv::ReleaseInstance()
 	}
 }
 
+void threadfunc(CTimerEnv* pTimer)
+{
+	if( pTimer != NULL )
+	{
+		pTimer->TimerLoop();
+	}
+
+}
+
 void CTimerEnv::startEnv()
 {
 
+	//pthread_mutex_init(&timer_lock);
+	//pthread_cond_init(&timer_cond);
 	
+	int ret = pthread_create(&m_pthreadId, NULL, threadfunc, (void*)this);
+	if( ret != 0)
+	{
+	}
 }
 
 
 void CTimerEnv::stopEnv()
 {
+	//pthread_mutex_destroy(timer_lock);
+	//pthread_cond_destroy(timer_cond)
+}
+
+void CTimerEnv::timerLoop()
+{
 
 }
+
+long CTimerEnv::createTimer(int timesec)
+{
+
+}
+
+void CTimerEnv::cancelTimer()
+{
+}
+
 

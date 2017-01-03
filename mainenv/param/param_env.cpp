@@ -6,6 +6,7 @@ CParamEnv* CParamEnv::m_cNetEnvIns = NULL;
 
 CParamEnv::CParamEnv()
 {
+	m_paramFd = NULL;
 }
 
 CParamEnv::~CParamEnv()
@@ -34,7 +35,11 @@ void CParamEnv::ReleaseInstance()
 
 void CParamEnv::startEnv()
 {
-
+#if SIMULATOR_FLAG 
+	m_paramFd = open("param.conf", "rw+")
+#else 
+	m_paramFd = open("param.conf", "rw+");
+#endif 
 	
 }
 
@@ -42,5 +47,6 @@ void CParamEnv::startEnv()
 void CParamEnv::stopEnv()
 {
 
+	close(m_paramFd);
 }
 
