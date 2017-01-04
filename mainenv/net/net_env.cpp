@@ -12,7 +12,7 @@ CNetEnv::~CNetEnv()
 {
 }
 
-CNetEnv* CNetEnv::GetInstance();
+CNetEnv* CNetEnv::GetInstance()
 {
 	if( m_cNetEnvIns == NULL)
 	{

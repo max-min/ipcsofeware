@@ -1,4 +1,6 @@
 
+
+#include <stdarg.h>
 #include "log_env.h"
 
 
@@ -7,14 +9,13 @@ CLogEnv* CLogEnv::m_cLogEnvIns = NULL;
 
 CLogEnv::CLogEnv()
 {
-	m_logFd = NULL;
 }
 
 CLogEnv::~CLogEnv()
 {
 }
 
-CLogEnv* CLogEnv::GetInstance();
+CLogEnv* CLogEnv::GetInstance()
 {
 	if( m_cLogEnvIns == NULL)
 	{
@@ -67,7 +68,8 @@ void CLogEnv::printf_list(const char* pFmt, ...)
 	va_list ap;
 	va_start(ap, pFmt);
 
-	for(char *p = pFmt; (*p) != '\0'; p++)
+	char *p = (char *)pFmt;
+	for( p; (*p) != '\0'; p++)
 	{
 		if((*p) == '%')
 		{
@@ -86,16 +88,23 @@ void CLogEnv::printf_list(const char* pFmt, ...)
 				putchar('%');
 				break;
 			case 'd':
-				int iParam = va_arg(ap, int);
-				printf("%d", iParam);
+				{
+					int iParam = va_arg(ap, int);
+					printf("%d", iParam);
+				}
 				break;
 			case 'c':
-				int cParam = va_arg(ap, int);
-				printf("%c",cParam);
+				{
+					int cParam = va_arg(ap, int);
+					printf("%c",cParam);
+				}
+				break;
 			case 'f':
-				float fParam = va_arg(ap, double);
-				printf("%f", fParam);
-				
+				{
+					float fParam = va_arg(ap, double);
+					printf("%f", fParam);
+				}
+				break;
 		}
 	}
 }
@@ -124,65 +133,4 @@ bool CLogEnv::GetLogEnvFlag(LOGENV enEnv)
 			return false;
 	}
 }
-void CLogEnv::LOG_FATAL(LOGENV enEnv, const char* pFmt, ...)
-{
-	if( GetLogEnvFlag(enEnv)
-	{
-		
-		if( LOG_Flag >= FATAL_LEVEL )
-		{
-			fprintf(stderr, RED "[%s/%s/%d]:"pFmt NONE, m_cLogEnvStr[enEnv],__FILE__, __LINE__, ##__VA_ARGS__);
-			fflush(stderr);
-		}
-	} 
-}
-void CLogEnv::LOG_ERROR(LOGENV enEnv, const char* pFmt, ...)
-{
-	if( GetLogEnvFlag(enEnv)
-	{
-		
-		if( LOG_Flag >= ERROR_LEVEL )
-		{
-			fprintf(stderr, L_RED "[%s/%s/%d]:"pFmt NONE, m_cLogEnvStr[enEnv],__FILE__, __LINE__, ##__VA_ARGS__);
-			fflush(stderr);
-		}
-	} 
-}
-void CLogEnv::LOG_WARN(LOGENV enEnv, const char* pFmt, ...)
-{
-	if( GetLogEnvFlag(enEnv)
-	{
-		
-		if( LOG_Flag >= WARN_LEVEL )
-		{
-			fprintf(stderr, YELLOW "[%s/%s/%d]:"pFmt NONE, m_cLogEnvStr[enEnv],__FILE__, __LINE__, ##__VA_ARGS__);
-			fflush(stderr);
-		}
-	} 
-}
-void CLogEnv::LOG_INFO(LOGENV enEnv, const char* pFmt, ...)
-{
-	if( GetLogEnvFlag(enEnv)
-	{
-		
-		if( LOG_Flag >= INFO_LEVEL )
-		{
-			fprintf(stderr, GREEN "[%s/%s/%d]:"pFmt NONE, m_cLogEnvStr[enEnv],__FILE__, __LINE__, ##__VA_ARGS__);
-			fflush(stderr);
-		}
-	} 
-}
-void CLogEnv::LOG_DEBUG(LOGENV enEnv, const char* pFmt, ...)
-{
-	if( GetLogEnvFlag(enEnv)
-	{
-		
-		if( LOG_Flag >= DEBUG_LEVEL )
-		{
-			fprintf(stderr, "[%s/%s/%d]:"pFmt NONE, m_cLogEnvStr[enEnv],__FILE__, __LINE__, ##__VA_ARGS__);
-			fflush(stderr);
-		}
-	} 
-}
-
 

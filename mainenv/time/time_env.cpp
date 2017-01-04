@@ -10,7 +10,7 @@ CTimeEnv::~CTimeEnv()
 {
 }
 
-CTimeEnv* CTimeEnv::GetInstance();
+CTimeEnv* CTimeEnv::GetInstance()
 {
 	if( m_cTimeEnvIns == NULL)
 	{

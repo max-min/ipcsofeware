@@ -2,18 +2,18 @@
 
 
 
-CParamEnv* CParamEnv::m_cNetEnvIns = NULL;
+CParamEnv* CParamEnv::m_cParamEnvIns = NULL;
 
 CParamEnv::CParamEnv()
 {
-	m_paramFd = NULL;
+//	m_paramFd = NULL;
 }
 
 CParamEnv::~CParamEnv()
 {
 }
 
-CParamEnv* CParamEnv::GetInstance();
+CParamEnv* CParamEnv::GetInstance()
 {
 	if( m_cParamEnvIns == NULL)
 	{

@@ -8,11 +8,11 @@ CCodecEnv::CCodecEnv()
 {
 }
 
-CCodecEnv::CCodecEnv()
+CCodecEnv::~CCodecEnv()
 {
 }
 
-CCodecEnv* CCodecEnv::GetInstance();
+CCodecEnv* CCodecEnv::GetInstance()
 {
 	if( m_cCodecEnvIns == NULL)
 	{

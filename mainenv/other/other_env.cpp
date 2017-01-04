@@ -10,7 +10,7 @@ COthersEnv::~COthersEnv()
 {
 }
 
-COthersEnv* COthersEnv::GetInstance();
+COthersEnv* COthersEnv::GetInstance()
 {
 	if( m_cOthersEnvIns == NULL)
 	{

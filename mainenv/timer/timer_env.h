@@ -21,10 +21,9 @@ class CTimerEnv:public CEnv
 
 		long createTimer(int timesec);
 		void cancelTimer(long timeid);
-	private:
 		void timerLoop();		
 	private:
-		//pthread_t m_pthreadId;
+		pthread_t m_pthreadId;
 		//pthread_mutex_t timer_lock;
 		//pthread_cond_t timer_cond;
 		//std::map<long, int> m_timerMap;

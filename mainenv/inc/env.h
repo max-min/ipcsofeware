@@ -2,14 +2,14 @@
 #define __ENV_H__
 
 
-
+#include <stdio.h>
 #define SIMULATOR_FLAG 1
 
 class CEnv
 {
 	public:
-		CEnv();
-		virtual ~CEnv();
+		CEnv(){}
+		virtual ~CEnv(){}
 
 	public:
 		virtual void startEnv() = 0;

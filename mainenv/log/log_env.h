@@ -30,12 +30,10 @@
 
 enum LOGLEVEL
 {
-	SYS_LEVEL   = 0,
-	FATAL_LEVEL = 1,
-	ERROR_LEVEL = 2,
-	WARN_LEVEL  = 3,
-	INFO_LEVEL  = 4,
-	DEBUG_LEVEL = 5
+	FATAL_LEVEL = 0,
+	ERROR_LEVEL = 1,
+	INFO_LEVEL  = 2,
+	DEBUG_LEVEL = 3
 		
 };
 
@@ -65,6 +63,193 @@ enum LOGENV
 #define TIME_LOG_FLAG      1
 #define TIMER_LOG_FLAG     1
 
+// common
+#define LOG_COMM_FATAL(pFmt, ...) \
+	if( LOG_Flag >= FATAL_LEVEL )\
+	{\
+		fprintf(stderr, L_RED "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_COMM_ERROR(pFmt, ...) \
+	if( LOG_Flag >= ERROR_LEVEL )\
+	{\
+		fprintf(stderr, RED "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_COMM_INFO(pFmt, ...) \
+	if( LOG_Flag >= INFO_LEVEL )\
+	{\
+		fprintf(stderr, L_BLACK "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_COMM_DEBUG(pFmt, ...) \
+	if( LOG_Flag >= DEBUG_LEVEL )\
+	{\
+		fprintf(stderr, L_GREEN "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+// end 
+
+
+// alarm 
+#define LOG_ALARM_FATAL(pFmt, ...) \
+	if( LOG_Flag >= FATAL_LEVEL )\
+	{\
+		fprintf(stderr, L_RED "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_ALARM_ERROR(pFmt, ...) \
+	if( LOG_Flag >= ERROR_LEVEL )\
+	{\
+		fprintf(stderr, RED "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_ALARM_INFO(pFmt, ...) \
+	if( LOG_Flag >= INFO_LEVEL )\
+	{\
+		fprintf(stderr, L_BLACK "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_ALARM_DEBUG(pFmt, ...) \
+	if( LOG_Flag >= DEBUG_LEVEL )\
+	{\
+		fprintf(stderr, L_GREEN "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+// end 
+
+// net 
+#define LOG_NET_FATAL(pFmt, ...) \
+	if( LOG_Flag >= FATAL_LEVEL )\
+	{\
+		fprintf(stderr, L_RED "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_NET_ERROR(pFmt, ...) \
+	if( LOG_Flag >= ERROR_LEVEL )\
+	{\
+		fprintf(stderr, RED "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_NET_INFO(pFmt, ...) \
+	if( LOG_Flag >= INFO_LEVEL )\
+	{\
+		fprintf(stderr, L_BLACK "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_NET_DEBUG(pFmt, ...) \
+	if( LOG_Flag >= DEBUG_LEVEL )\
+	{\
+		fprintf(stderr, L_GREEN "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+// end 
+
+// server
+#define LOG_SERV_FATAL(pFmt, ...) \
+	if( LOG_Flag >= FATAL_LEVEL )\
+	{\
+		fprintf(stderr, L_RED "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_SERV_ERROR(pFmt, ...) \
+	if( LOG_Flag >= ERROR_LEVEL )\
+	{\
+		fprintf(stderr, RED "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_SERV_INFO(pFmt, ...) \
+	if( LOG_Flag >= INFO_LEVEL )\
+	{\
+		fprintf(stderr, L_BLACK "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_SERV_DEBUG(pFmt, ...) \
+	if( LOG_Flag >= DEBUG_LEVEL )\
+	{\
+		fprintf(stderr, L_GREEN "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+// end 
+
+// codec
+#define LOG_CODEC_FATAL(pFmt, ...) \
+	if( LOG_Flag >= FATAL_LEVEL )\
+	{\
+		fprintf(stderr, L_RED "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_CODEC_ERROR(pFmt, ...) \
+	if( LOG_Flag >= ERROR_LEVEL )\
+	{\
+		fprintf(stderr, RED "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_CODEC_INFO(pFmt, ...) \
+	if( LOG_Flag >= INFO_LEVEL )\
+	{\
+		fprintf(stderr, L_BLACK "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_CODEC_DEBUG(pFmt, ...) \
+	if( LOG_Flag >= DEBUG_LEVEL )\
+	{\
+		fprintf(stderr, L_GREEN "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+// end 
+
+// param
+#define LOG_PARAM_FATAL(pFmt, ...) \
+	if( LOG_Flag >= FATAL_LEVEL )\
+	{\
+		fprintf(stderr, L_RED "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_PARAM_ERROR(pFmt, ...) \
+	if( LOG_Flag >= ERROR_LEVEL )\
+	{\
+		fprintf(stderr, RED "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_PARAM_INFO(pFmt, ...) \
+	if( LOG_Flag >= INFO_LEVEL )\
+	{\
+		fprintf(stderr, L_BLACK "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+#define LOG_PARAM_DEBUG(pFmt, ...) \
+	if( LOG_Flag >= DEBUG_LEVEL )\
+	{\
+		fprintf(stderr, L_GREEN "[%s/%d]:"pFmt NONE,  __FILE__, __LINE__, ##__VA_ARGS__);\
+		fflush(stderr);\
+	}
+
+// end 
+
 
 class CLogEnv:public CEnv
 {
@@ -78,19 +263,14 @@ class CLogEnv:public CEnv
 	public:
 		void startEnv();
 		void stopEnv();
-
+		
 		bool GetLogEnvFlag(LOGENV enEnv);
-		void LOG_FATAL(LOGENV enEnv, const char* pFmt, ...);
-		void LOG_ERROR(LOGENV enEnv, const char* pFmt, ...);
-		void LOG_WARN(LOGENV enEnv, const char* pFmt, ...);
-		void LOG_INFO(LOGENV enEnv, const char* pFmt, ...);
-		void LOG_DEBUG(LOGENV enEnv, const char* pFmt, ...);
 		
 	private:
-		void printf_list();
+		void printf_list(const char* pFmt, ...);
 
 	private:	
-		std::map<LOGENV, char*> m_cLogEnvStr;
+		std::map<LOGENV, const char*> m_cLogEnvStr;
 //		FILE* m_logFd;
 
 	

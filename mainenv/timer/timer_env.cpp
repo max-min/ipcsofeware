@@ -10,7 +10,7 @@ CTimerEnv::~CTimerEnv()
 {
 }
 
-CTimerEnv* CTimerEnv::GetInstance();
+CTimerEnv* CTimerEnv::GetInstance()
 {
 	if( m_cTimerEnvIns == NULL)
 	{
@@ -30,13 +30,16 @@ void CTimerEnv::ReleaseInstance()
 	}
 }
 
-void threadfunc(CTimerEnv* pTimer)
+void* threadfunc(void* handle)
 {
+	CTimerEnv* pTimer = (CTimerEnv*)handle;
+	
 	if( pTimer != NULL )
 	{
-		pTimer->TimerLoop();
+		pTimer->timerLoop();
 	}
-
+	
+	return NULL;
 }
 
 void CTimerEnv::startEnv()
@@ -68,7 +71,7 @@ long CTimerEnv::createTimer(int timesec)
 
 }
 
-void CTimerEnv::cancelTimer()
+void CTimerEnv::cancelTimer(long timeid)
 {
 }
 

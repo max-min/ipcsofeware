@@ -1,5 +1,6 @@
 #ifndef __CODEC_ENV_H__
 #define __CODEC_ENV_H__
+#include "env.h"
 
 class CCodecEnv:public CEnv
 {

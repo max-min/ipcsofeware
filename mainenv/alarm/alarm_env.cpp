@@ -1,8 +1,6 @@
 
 #include "alarm_env.h"
 
-
-
 CAlarmEnv* CAlarmEnv::m_cAlarmEnvIns = NULL;
 
 CAlarmEnv::CAlarmEnv()
@@ -13,7 +11,7 @@ CAlarmEnv::~CAlarmEnv()
 {
 }
 
-CAlarmEnv* CAlarmEnv::GetInstance();
+CAlarmEnv* CAlarmEnv::GetInstance()
 {
 	if( m_cAlarmEnvIns == NULL)
 	{

@@ -12,7 +12,7 @@ CServEnv::~CServEnv()
 {
 }
 
-CServEnv* CServEnv::GetInstance();
+CServEnv* CServEnv::GetInstance()
 {
 	if( m_cServEnvIns == NULL)
 	{
