@@ -7,14 +7,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
-
-
-
-#define FATAL_LEVEL 0
-#define ERROR_LEVEL 1
-#define WARN_LEVEL  2
-#define DEBUG_LEVEL 3
-#define INFO_LEVEL  4
+#include <map>
 
 
 #define NONE                 "\e[0m"
@@ -35,11 +28,42 @@
 #define GRAY                 "\e[0;37m"
 #define WHITE                "\e[1;37m"
 
-#define DBG_SRV_INFO(pFmt, ...) \
-	do{\
-		fprintf(stderr, "[%s/%d]:"pFmt, __FILE__, __LINE__, ##__VA_ARGS__);\
-		fflush(stderr);\
-	}while(0)
+enum LOGLEVEL
+{
+	SYS_LEVEL   = 0,
+	FATAL_LEVEL = 1,
+	ERROR_LEVEL = 2,
+	WARN_LEVEL  = 3,
+	INFO_LEVEL  = 4,
+	DEBUG_LEVEL = 5
+		
+};
+
+enum LOGENV
+{
+	NET_ENV   = 0,
+	ALARM_ENV = 1,
+	CODEC_EN  = 2,
+	PARAM_ENV = 3,
+	SERV_ENV  = 4,
+	TIME_ENV  = 5,
+	TIMER_ENV = 6,
+	COMM_ENV  = 7
+};
+
+// the flag of print the log level in the application
+#define LOG_Flag 3 
+
+// the flag of the env module
+#define NET_LOG_FLAG       1
+#define ALARM_LOG_FLAG     1
+#define CODEC_LOG_FLAG     1
+#define LOG_LOG_FLAG       1
+#define OTHER_LOG_FLAG     1
+#define PARAM_LOG_FLAG     1
+#define SERVER_LOG_FLAG    1
+#define TIME_LOG_FLAG      1
+#define TIMER_LOG_FLAG     1
 
 
 class CLogEnv:public CEnv
@@ -54,9 +78,21 @@ class CLogEnv:public CEnv
 	public:
 		void startEnv();
 		void stopEnv();
-	
+
+		bool GetLogEnvFlag(LOGENV enEnv);
+		void LOG_FATAL(LOGENV enEnv, const char* pFmt, ...);
+		void LOG_ERROR(LOGENV enEnv, const char* pFmt, ...);
+		void LOG_WARN(LOGENV enEnv, const char* pFmt, ...);
+		void LOG_INFO(LOGENV enEnv, const char* pFmt, ...);
+		void LOG_DEBUG(LOGENV enEnv, const char* pFmt, ...);
+		
 	private:
+		void printf_list();
+
+	private:	
+		std::map<LOGENV, char*> m_cLogEnvStr;
 //		FILE* m_logFd;
+
 	
 };
 
