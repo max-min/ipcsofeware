@@ -1,4 +1,5 @@
 #include "net_env.h"
+#include "log_env.h"
 
 
 
@@ -35,6 +36,9 @@ void CNetEnv::ReleaseInstance()
 void CNetEnv::startEnv()
 {
 
+	LOG_NET_FATAL(" ************************************* \n");
+	LOG_NET_FATAL(" ********* Net Env is start ********** \n");
+	LOG_NET_FATAL(" ************************************* \n");
 	
 }
 

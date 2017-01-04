@@ -1,4 +1,5 @@
 #include "codec_env.h"
+#include "log_env.h"
 
 
 
@@ -34,8 +35,10 @@ void CCodecEnv::ReleaseInstance()
 
 void CCodecEnv::startEnv()
 {
+	LOG_CODEC_FATAL(" ************************************* \n");
+	LOG_CODEC_FATAL(" ******** Codec Env is start ********* \n");
+	LOG_CODEC_FATAL(" ************************************* \n");
 
-	
 }
 
 

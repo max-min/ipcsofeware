@@ -1,4 +1,6 @@
 #include "time_env.h"
+#include "log_env.h"
+
 
 CTimeEnv* CTimeEnv::m_cTimeEnvIns = NULL;
 
@@ -33,6 +35,9 @@ void CTimeEnv::ReleaseInstance()
 void CTimeEnv::startEnv()
 {
 
+	LOG_COMM_FATAL(" ************************************* \n");
+	LOG_COMM_FATAL(" ********* Time Env is start ********** \n");
+	LOG_COMM_FATAL(" ************************************* \n");
 	
 }
 

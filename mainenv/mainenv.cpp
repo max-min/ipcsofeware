@@ -10,8 +10,6 @@
 #include "alarm_env.h"
 
 
-
-
 CMainEnv* CMainEnv::m_cMainEnvIns = NULL;
 
 CMainEnv::CMainEnv()
@@ -67,6 +65,9 @@ void CMainEnv::InitEnvPoint()
 void CMainEnv::startMainEnv()
 {
 
+	LOG_COMM_FATAL(" ************************************************* \n");
+	LOG_COMM_FATAL(" ******* IPC_SOFTWARE Application is start ******* \n");
+	LOG_COMM_FATAL(" ************************************************* \n");
 	std::list<CEnv*>::iterator pos = m_envList.begin();
 	while( pos != m_envList.end())
 	{

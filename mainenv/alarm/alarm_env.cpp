@@ -1,5 +1,6 @@
 
 #include "alarm_env.h"
+#include "log_env.h"
 
 CAlarmEnv* CAlarmEnv::m_cAlarmEnvIns = NULL;
 
@@ -33,6 +34,9 @@ void CAlarmEnv::ReleaseInstance()
 
 void CAlarmEnv::startEnv()
 {
+	LOG_ALARM_FATAL(" ************************************* \n");
+	LOG_ALARM_FATAL(" ******** Alarm Env is start ********* \n");
+	LOG_ALARM_FATAL(" ************************************* \n");
 
 	
 }

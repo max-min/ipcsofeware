@@ -37,6 +37,9 @@ void CLogEnv::ReleaseInstance()
 
 void CLogEnv::startEnv()
 {
+	LOG_COMM_FATAL(" ************************************* \n");
+	LOG_COMM_FATAL(" ********* Log Env is start ********** \n");
+	LOG_COMM_FATAL(" ************************************* \n");
 #if SIMULATOR_FLAG
 //	m_logFd = open("ipcsoftware.log", "w+");
 #else 
@@ -124,11 +127,11 @@ bool CLogEnv::GetLogEnvFlag(LOGENV enEnv)
 		case SERV_ENV:
 			return (SERVER_LOG_FLAG == 1)? true : false;
 		case TIME_ENV:
-			return (TIME_LOG_FLAG == 1)? true : false;
+			return (COMM_LOG_FLAG == 1)? true : false;
 		case TIMER_ENV:
-			return (TIMER_LOG_FLAG == 1)? true : false;
+			return (COMM_LOG_FLAG == 1)? true : false;
 		case COMM_ENV:
-			return (LOG_LOG_FLAG == 1 ||OTHER_LOG_FLAG == 1)? true : false;
+			return (COMM_LOG_FLAG == 1 ||COMM_LOG_FLAG == 1)? true : false;
 		default:
 			return false;
 	}

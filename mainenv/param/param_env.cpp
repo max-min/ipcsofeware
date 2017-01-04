@@ -1,4 +1,5 @@
 #include "param_env.h"
+#include "log_env.h"
 
 
 
@@ -35,6 +36,9 @@ void CParamEnv::ReleaseInstance()
 
 void CParamEnv::startEnv()
 {
+	LOG_PARAM_FATAL(" ************************************* \n");
+	LOG_PARAM_FATAL(" ******** Param Env is start ********* \n");
+	LOG_PARAM_FATAL(" ************************************* \n");
 #if SIMULATOR_FLAG 
 //	m_paramFd = open("param.conf", "rw+")
 #else 

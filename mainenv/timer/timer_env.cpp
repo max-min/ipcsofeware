@@ -1,4 +1,5 @@
 #include "timer_env.h"
+#include "log_env.h"
 
 CTimerEnv* CTimerEnv::m_cTimerEnvIns = NULL;
 
@@ -44,8 +45,12 @@ void* threadfunc(void* handle)
 
 void CTimerEnv::startEnv()
 {
+	
+	LOG_COMM_FATAL(" ************************************* \n");
+	LOG_COMM_FATAL(" ********* Timer Env is start ********** \n");
+	LOG_COMM_FATAL(" ************************************* \n");
 
-	//pthread_mutex_init(&timer_lock);
+	//pt_mutex_init(&timer_lock);
 	//pthread_cond_init(&timer_cond);
 	
 	int ret = pthread_create(&m_pthreadId, NULL, threadfunc, (void*)this);

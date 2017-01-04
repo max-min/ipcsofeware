@@ -1,4 +1,6 @@
 #include "other_env.h"
+#include "log_env.h"
+
 
 COthersEnv* COthersEnv::m_cOthersEnvIns = NULL;
 
@@ -33,6 +35,9 @@ void COthersEnv::ReleaseInstance()
 void COthersEnv::startEnv()
 {
 
+	LOG_COMM_FATAL(" ************************************* \n");
+	LOG_COMM_FATAL(" ******** Other Env is start ********* \n");
+	LOG_COMM_FATAL(" ************************************* \n");
 	
 }
 
