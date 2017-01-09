@@ -3,8 +3,9 @@
 
 
 #include <stdio.h>
-#define SIMULATOR_FLAG 1
 
+
+#define X86_COMM
 class CEnv
 {
 	public:

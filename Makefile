@@ -119,6 +119,5 @@ clean:
 	rm -rf $(EXE_NAME)
 	rm -rf $(DEPFILE)
 	rm -rf $(OBJECTS_DIR)/*.o
-	
 
 

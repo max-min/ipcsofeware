@@ -1,5 +1,3 @@
-
-
 #include <stdarg.h>
 #include "log_env.h"
 
