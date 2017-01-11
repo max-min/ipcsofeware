@@ -6,7 +6,7 @@
 			<env>
 				<alarm flag="1"/>
 				<net flag="1" />
-				<param flag= "1" />
+				<par flag= "1" />
 				<time flag="1" />
 				<serv flag="1" />
 			</env>
@@ -21,8 +21,8 @@
 		<platform>
 			<open>1</open>
 			<type>0</type>
-			<server_id></server_id>
-			<server_ip></server_ip>
+			<server_id>11111111</server_id>
+			<server_ip>10.72.66.188</server_ip>
 			<server_port>8000</server_port>
 		</platform>
 		<gb28181>

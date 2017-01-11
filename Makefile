@@ -79,6 +79,12 @@ IPC_INC += -I$(TIMER_DIR)
 PROJECT_SRC += $(wildcard $(TIMER_DIR)/*.cpp)
 
 
+######
+# common
+#######
+COMMON_DIR := $(TOP)/mainenv/common
+IPC_INC += -I$(COMMON_DIR)
+PROJECT_SRC += $(wildcard $(COMMON_DIR)/tinyxml/*.cpp)
 
 
 CFLAGS += $(IPC_INC)
