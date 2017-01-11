@@ -1,6 +1,6 @@
 #include "param_env.h"
 #include "log_env.h"
-#include "param_struct.h"
+//#include "param_struct.h"
 
 
 CParamEnv* CParamEnv::m_cParamEnvIns = NULL;
@@ -69,9 +69,9 @@ void CParamEnv::loadXmlConf()
 	
 	LOG_PARAM_INFO(" load param_conf.xml success. \n");
 	
-	PlatformParam_S stPF;
+//	PlatformParam_S stPF;
 	
-	GetPlatformParam((void*)&stPF);
+//	GetPlatformParam((void*)&stPF);
 }
 		
 void CParamEnv::loadLogConf()
@@ -92,6 +92,7 @@ void CParamEnv::loadLogConf()
 
 void CParamEnv::GetPlatformParam(void *param)
 {
+#if 0
 	PlatformParam_S *pPlatformPar = (PlatformParam_S*)param;
 	
 	TiXmlNode* paramNode = m_rootEle->FirstChild("param");
@@ -110,7 +111,7 @@ void CParamEnv::GetPlatformParam(void *param)
 		
 	}
 
-
+#endif 
 }
 
 

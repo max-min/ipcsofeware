@@ -92,10 +92,10 @@ CFLAGS += $(IPC_INC)
 ################
 # lib 
 #############
-LIB += $(TOP)/lib/libevent/libevent.a
-LIB += $(TOP)/lib/libevent/libevent_core.a
-LIB += $(TOP)/lib/libevent/libevent_extra.a
-LIB += $(TOP)/lib/libevent/libevent_pthreads.a
+LIB += $(MAIN_DIR)/lib/libevent/libevent.a
+LIB += $(MAIN_DIR)/lib/libevent/libevent_core.a
+LIB += $(MAIN_DIR)/lib/libevent/libevent_extra.a
+LIB += $(MAIN_DIR)/lib/libevent/libevent_pthreads.a
 
 STD += -std=c99
 LDFLAGS += $(LIB)

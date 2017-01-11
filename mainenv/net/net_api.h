@@ -1,8 +1,13 @@
 #ifndef __NET_API_H__
 #define __NET_API_H__
 #include <map>
+#include <pthread.h>
+#include "event2/event.h"
+#include "event2/event_compat.h"
+#include "net_base.h"
+
 class CNet
-{
+{
 	public:
 		static CNet* GetInstance();
 		static void ReleaseInstance();
@@ -12,7 +17,7 @@ class CNet
 		CNet();
 		virtual ~CNet();
 	public:
-		strcut event_base* getEventBase();
+		struct event_base* getEventBase();
 	public:
 		
 		int startNetServer();

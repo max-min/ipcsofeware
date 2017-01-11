@@ -1,19 +1,25 @@
+#include <stdlib.h>
+#include <unistd.h>
+#include <strings.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <sys/types.h>
+#include <sys/socket.h>
 #include "net_api.h"
 #include "log_env.h"
 
-
-#define MAX_RECV_LEN 1024*10;
+#define MAX_RECV_LEN 1024*10
 
 CNet* CNet::m_cNetIns = NULL;
 CNet::CNet()
-{
+{
 	m_eventBase = NULL;
-	pthread_mutex_init(m_mutexLock, NULL);
+	pthread_mutex_init(&m_mutexLock, NULL);
 	m_recvBuffer = NULL;
 
 	m_recvBuffer = new char[MAX_RECV_LEN];
 	if( m_recvBuffer == NULL )
-	{
+	{
 		LOG_NET_ERROR(" m_recvBuffer new space failed\n");
 		exit(-1);
 	}
@@ -23,7 +29,7 @@ CNet::CNet()
 
 CNet::~CNet()
 {
-	pthread_mutex_destroy(m_mutexLock);
+	pthread_mutex_destroy(&m_mutexLock);
 	if( m_recvBuffer != NULL )
 	{
 		delete []m_recvBuffer;
@@ -110,12 +116,15 @@ void onAcceptEvent(int svrfd,short ievent,void *arg)
     socklen_t sinsize = sizeof(cliaddr);  
     clifd = accept(svrfd,(struct sockaddr*)&cliaddr,&sinsize);  
 	
-    struct event *eventHandle = new event;  
-    event_set(pread,clifd,EV_READ|EV_PERSIST,onReadEvent,eventHandle);  // 注册读(写)事件  
-
+	if(clifd < 0 )
+	{
+		LOG_NET_ERROR("accept error");
+		return ;
+	}
 	struct event_base *base = CNet::GetInstance()->getEventBase();
-	event_base_set(base,eventHandle);  
-    event_add(eventHandle,NULL);  
+    struct event *eventAccept = event_new(base, clifd,EV_READ|EV_PERSIST,onReadEvent,eventAccept);  // 注册读(写)事件  
+
+    event_add(eventAccept,NULL);  
 }
 
 
@@ -131,17 +140,28 @@ int CNet::listenTcpServer(char *ip, int port)
     svraddr.sin_addr.s_addr = inet_addr(ip);  
   
     svrfd = socket(AF_INET,SOCK_STREAM,0);  
-    bind(svrfd,(struct sockaddr*)&svraddr,sizeof(svraddr));  
+	if( svrfd <= 0 )
+	{
+		LOG_NET_ERROR("create listen socket error!\n");
+		return -1;
+	}
+	evutil_make_listen_socket_reuseable(svrfd);
+    if(bind(svrfd,(struct sockaddr*)&svraddr,sizeof(svraddr)) < 0 )
+	{
+		LOG_NET_ERROR("bind socket error!\n");
+		return -1;
+	}
+	
+    if( listen(svrfd,10) < 0 )
+	{
+		LOG_NET_ERROR(" listen socket error!\n");
+		return -1;
+	}
   
-    listen(svrfd,10);  
+	evutil_make_socket_nonblocking(svrfd);
+    struct event *evlisten = event_new(m_eventBase , svrfd,EV_READ|EV_PERSIST,onAcceptEvent,NULL);  
   
-    struct event evlisten;  
-    event_set(&evlisten,svrfd,EV_READ|EV_PERSIST,onAcceptEvent,NULL);  
-  
-    // 设置为base事件  
-    event_base_set(m_eventBase,&evlisten);  
-    // 添加事件  
-    event_add(&evlisten,NULL);  
+    event_add(evlisten,NULL);  
 	return 0;
 	
 }
@@ -153,24 +173,22 @@ int CNet::connectTcpServer(char* ip, int port)
 		LOG_NET_ERROR(" create a socket err:%s\n", stderror(errno));
 		return -1;
 	}
-	struct sockaddr_in servaddr
+	struct sockaddr_in servaddr;
     bzero(&servaddr, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
     inet_pton(AF_INET, ip, &servaddr.sin_addr);
     servaddr.sin_port = htons(port);
     
-    if( (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr))) == INVALID_SOCKET)
+    if( (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr))) != 0 )
     {
     	LOG_NET_ERROR("connenct server(%s:%d) error:%s\n", ip, port, stderror(errno));
 		return -1;
     }
 
-	struct event *eventHandle = new event;  
-    event_set(pread,clifd,EV_READ|EV_PERSIST,onReadEvent,eventHandle);  // 注册读(写)事件  
-
 	struct event_base *base = CNet::GetInstance()->getEventBase();
-	event_base_set(base,eventHandle);  
-    event_add(eventHandle,NULL); 
+	struct event *eventConnect = event_new(base , sockfd, EV_READ|EV_PERSIST,onReadEvent,eventConnect);  // 注册读(写)事件  
+
+    event_add(eventConnect,NULL); 
 
 	return 0;
 }
@@ -190,20 +208,20 @@ char * CNet::getRecvBuffer()
 
 int CNet::setNetHandle(int Fd,CNetBase* handle)
 {
-	pthread_mutex_lock(m_mutexLock);
+	pthread_mutex_lock(&m_mutexLock);
 	std::map<int, CNetBase*>::iterator pos;
 	for(pos = m_cNetBaseMap.begin(); pos != m_cNetBaseMap.end(); pos++)
 	{
 		if( pos->first == Fd )
 		{
 			LOG_NET_INFO("the socket is already exit socketFd=%d\n", Fd);
-			pthread_mutex_unlock(m_mutexLock);
+			pthread_mutex_unlock(&m_mutexLock);
 			return 0;
 		}
 	}
 
 	m_cNetBaseMap[Fd] = handle;
-	pthread_mutex_unlock(m_mutexLock);
+	pthread_mutex_unlock(&m_mutexLock);
 	return 0;
 }
 
@@ -211,7 +229,7 @@ int CNet::setNetHandle(int Fd,CNetBase* handle)
 int CNet::getSocketFd(CNetBase* handle)
 {
 	int sockFd = 0;
-	pthread_mutex_lock(m_mutexLock);
+	pthread_mutex_lock(&m_mutexLock);
 	std::map<int, CNetBase*>::iterator pos;
 	for(pos = m_cNetBaseMap.begin(); pos != m_cNetBaseMap.end(); pos++)
 	{
@@ -222,7 +240,7 @@ int CNet::getSocketFd(CNetBase* handle)
 		}
 	}
 
-	pthread_mutex_unlock(m_mutexLock);
+	pthread_mutex_unlock(&m_mutexLock);
 	return sockFd;
 }
 
@@ -230,7 +248,7 @@ int CNet::getSocketFd(CNetBase* handle)
 CNetBase* CNet::getHandle(int Fd)
 {
 	CNetBase* handle = NULL;
-	pthread_mutex_lock(m_mutexLock);
+	pthread_mutex_lock(&m_mutexLock);
 	std::map<int, CNetBase*>::iterator pos;
 	for(pos = m_cNetBaseMap.begin(); pos != m_cNetBaseMap.end(); pos++)
 	{
@@ -241,7 +259,7 @@ CNetBase* CNet::getHandle(int Fd)
 		}
 	}
 
-	pthread_mutex_unlock(m_mutexLock);
+	pthread_mutex_unlock(&m_mutexLock);
 	return handle;
 }
 
