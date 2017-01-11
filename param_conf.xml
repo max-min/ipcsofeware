@@ -25,6 +25,8 @@
 			<server_ip>10.72.66.188</server_ip>
 			<server_port>8000</server_port>
 		</platform>
+		<smtp>
+		</smtp>
 		<gb28181>
 		</gb28181>
 	</param>
