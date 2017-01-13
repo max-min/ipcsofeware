@@ -22,18 +22,26 @@ class CNet
 		
 		int startNetServer();
 		void stopNetServer();
-		int listenTcpServer(char *ip, int port);
+		
+		int listenTcpServer(char *ip, int port, void* handle);
 		int connectTcpServer(char* ip, int port);
 
-		char* getRecvBuffer();
+
 
 		int sendTcpData(int socketFd, char* buf, int len);
 		int readTcpData(int socketFd, char* buf, int len);
 
+		void closeServer(int socketFd);
+		
+		char* getRecvBuffer();
+
+		CNetBase* getNetHandle(int Fd);
 		int setNetHandle(int Fd,CNetBase* handle);
 		int getSocketFd(CNetBase* handle);
-		CNetBase* getHandle(int Fd);
+		
 	private:
+		void InitEventLoop();
+		pthread_t m_eventloopID;
 		struct event_base* m_eventBase;
 
 		std::map<int, CNetBase*> m_cNetBaseMap;

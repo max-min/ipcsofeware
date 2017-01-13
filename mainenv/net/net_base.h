@@ -10,7 +10,7 @@ class CNetBase
 	public: 
 		int OnReceive(char *buf , int len);
 		int OnSendData(char*buf ,int len);
-		int OnAccept();
+		int OnAccept(int sockFd);
 
 	private:
 		

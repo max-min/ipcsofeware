@@ -1,5 +1,6 @@
 #include "net_env.h"
 #include "log_env.h"
+#include "net_api.h"
 
 
 
@@ -39,12 +40,13 @@ void CNetEnv::startEnv()
 	LOG_NET_FATAL(" ************************************* \n");
 	LOG_NET_FATAL(" ********* Net Env is start ********** \n");
 	LOG_NET_FATAL(" ************************************* \n");
-	
+
+	CNet::GetInstance()->startNetServer();
 }
 
 
 void CNetEnv::stopEnv()
 {
-
+	CNet::GetInstance()->stopNetServer();
 }
 

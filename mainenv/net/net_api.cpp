@@ -55,21 +55,38 @@ void CNet::ReleaseInstance()
 	}
 }
 
+void thread_func(void *args)
+{
+	CNet* pNet = (CNet*)args;
+	if( pNet != NULL )
+	{
+		pNet->InitEventLoop();
+	}
+}
 int CNet::startNetServer()
 {
 
-  	m_eventBase = event_base_new();
+	if( pthread_create(&m_eventloopID, NULL, thread_func, this) != 0 )
+	{
+		LOG_NET_ERROR(" create libevent loop thread error:%s\n", stderror(errno));
+		return -1;
+	}
 
+}
+
+void CNet::InitEventLoop()
+{
+
+  	m_eventBase = event_base_new();
 	if( m_eventBase == NULL )
 	{
 		
-		LOG_NET_ERROR("Net Event start error \n");
-		
-		return -1;
+		LOG_NET_ERROR("Net Event start error base == NULL\n");
+		return;
 	}
-	LOG_NET_INFO(" Net Event start\n");
+	
+	LOG_NET_INFO(" Net Event Loop start\n");
 	event_base_dispatch(m_eventBase);
-	return 0;
 }
 
 void CNet::stopNetServer()
@@ -118,9 +135,15 @@ void onAcceptEvent(int svrfd,short ievent,void *arg)
 	
 	if(clifd < 0 )
 	{
-		LOG_NET_ERROR("accept error");
+		LOG_NET_ERROR("accept error : %s", stderror(errno));
 		return ;
 	}
+	
+	//CNet::GetInstance()->setNetHandle(clifd,(CNetBase* )arg);
+	//保持代码回调的统一性，在上层设置句柄
+	CNetBase *pBase = (CNetBase*)arg;
+	pBase->onAccept(int clifd);
+
 	struct event_base *base = CNet::GetInstance()->getEventBase();
     struct event *eventAccept = event_new(base, clifd,EV_READ|EV_PERSIST,onReadEvent,eventAccept);  // 注册读(写)事件  
 
@@ -129,7 +152,7 @@ void onAcceptEvent(int svrfd,short ievent,void *arg)
 
 
 
-int CNet::listenTcpServer(char *ip, int port)
+int CNet::listenTcpServer(char *ip, int port, void* handle)
 {
 	 int svrfd;  
     struct sockaddr_in svraddr;  
@@ -142,27 +165,27 @@ int CNet::listenTcpServer(char *ip, int port)
     svrfd = socket(AF_INET,SOCK_STREAM,0);  
 	if( svrfd <= 0 )
 	{
-		LOG_NET_ERROR("create listen socket error!\n");
+		LOG_NET_ERROR("create listen socket error:%s\n", stderror(errno));
 		return -1;
 	}
 	evutil_make_listen_socket_reuseable(svrfd);
     if(bind(svrfd,(struct sockaddr*)&svraddr,sizeof(svraddr)) < 0 )
 	{
-		LOG_NET_ERROR("bind socket error!\n");
+		LOG_NET_ERROR("bind socket error:%s\n", stderror(errno));
 		return -1;
 	}
 	
     if( listen(svrfd,10) < 0 )
 	{
-		LOG_NET_ERROR(" listen socket error!\n");
+		LOG_NET_ERROR(" listen socket error:%s\n", stderror(errno));
 		return -1;
 	}
   
 	evutil_make_socket_nonblocking(svrfd);
-    struct event *evlisten = event_new(m_eventBase , svrfd,EV_READ|EV_PERSIST,onAcceptEvent,NULL);  
+    struct event *evlisten = event_new(m_eventBase , svrfd,EV_READ|EV_PERSIST,onAcceptEvent, handle);  
   
     event_add(evlisten,NULL);  
-	return 0;
+	return svrfd;
 	
 }
 int CNet::connectTcpServer(char* ip, int port)
@@ -190,21 +213,71 @@ int CNet::connectTcpServer(char* ip, int port)
 
     event_add(eventConnect,NULL); 
 
-	return 0;
+	return sockfd;
 }
 
 int CNet::sendTcpData(int socketFd, char* buf, int len)
 {
+	int iLeftSize = len;
+	int iSendSize = 0;
+	int iRet      = 0;
+
+	while( iLeftSize > 0)
+	{
+		iRet = send( socketFd, buf +iSendSize, iLeftSize, 0);
+		if ( s32Ret < 0)
+		{
+			LOG_NET_ERROR("send error:%s\n", strerror(errno));
+			break;
+		}
+
+		iLeftSize-= iRet;
+		iSendSize+= iRet;
+	}
+
+	if ( iSendSize != len )
+	{
+		LOG_NET_ERROR("Send Len erro:len=%d, iSendSize=%d\n", len, iSendSize);
+		return -1;
+	}
+	return 0;
 }
+
 int CNet::readTcpData(int socketFd, char* buf, int len)
 {
 	return 0;
 }
 
+void closeServer(int socketFd)
+{
+	LOG_NET_INFO("close the socket :%d\n", socketFd);
+	close(socketFd);
+}
+
+
 char * CNet::getRecvBuffer()
 {
 	return m_recvBuffer;
 }
+
+CNetBase* CNet::getNetHandle(int Fd)
+{
+	CNetBase* handle = NULL;
+	pthread_mutex_lock(&m_mutexLock);
+	std::map<int, CNetBase*>::iterator pos;
+	for(pos = m_cNetBaseMap.begin(); pos != m_cNetBaseMap.end(); pos++)
+	{
+		if( pos->first == Fd )
+		{
+			handle = pos->second;
+			break;
+		}
+	}
+
+	pthread_mutex_unlock(&m_mutexLock);
+	return handle;
+}
+
 
 int CNet::setNetHandle(int Fd,CNetBase* handle)
 {
@@ -245,22 +318,6 @@ int CNet::getSocketFd(CNetBase* handle)
 }
 
 
-CNetBase* CNet::getHandle(int Fd)
-{
-	CNetBase* handle = NULL;
-	pthread_mutex_lock(&m_mutexLock);
-	std::map<int, CNetBase*>::iterator pos;
-	for(pos = m_cNetBaseMap.begin(); pos != m_cNetBaseMap.end(); pos++)
-	{
-		if( pos->first == Fd )
-		{
-			handle = pos->second;
-			break;
-		}
-	}
 
-	pthread_mutex_unlock(&m_mutexLock);
-	return handle;
-}
 
 
