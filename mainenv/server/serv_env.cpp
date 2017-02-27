@@ -43,7 +43,18 @@ void CServEnv::startEnv()
 	//监听本地服务，传入this指针，当回调accept的时候，设置accept的客户端sockfd的指针句柄。
 	// 有数据产生时，则回调 OnReceiv()
  	CNet::listenTcpServer("127.0.0.1", LISTEN_PORT, this);
+
 	
+	// znv sdk 
+	
+	// onvif 
+	
+	// gb28181
+	
+	// rtsp
+	
+
+	// google protocol buffer 
 }
 
 
