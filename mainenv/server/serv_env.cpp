@@ -1,5 +1,9 @@
 #include "serv_env.h"
 #include "log_env.h"
+#include "znv_serv.h"
+#include "gb_serv.h"
+#include "onvif_serv.h"
+#include "rtsp_serv.h"
 
 
 #define LISTEN_PORT  10089
@@ -46,20 +50,36 @@ void CServEnv::startEnv()
 
 	
 	// znv sdk 
-	
+	CZNVServ::GetInstance()->startZNVPlatform();
+
+	// rtsp
+	CRtspServ::GetInstance()->startRtspServ();
+		
 	// onvif 
+	COnvifServ::GetInstance()->startOnvifServer();
 	
 	// gb28181
+	CGB28181Serv::GetInstance()->startGB28181Server();
 	
-	// rtsp
-	
-
 	// google protocol buffer 
 }
 
 
 void CServEnv::stopEnv()
 {
+	// znv sdk 
+	CZNVServ::GetInstance()->stopZNVPlatform();
+
+	// rtsp
+	CRtspServ::GetInstance()->stopRtspServ();
+		
+	// onvif 
+	COnvifServ::GetInstance()->stopOnvifServer();
+	
+	// gb28181
+	CGB28181Serv::GetInstance()->stopGB28181Server();
+	
+	// google protocol buffer 
 
 }
 

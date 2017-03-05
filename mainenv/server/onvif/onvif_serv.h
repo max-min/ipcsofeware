@@ -3,7 +3,18 @@
 
 class COnvifServ
 {
+	public:
+		static COnvifServ* GetInstance();
+		static void ReleaseInstance();
 
+		void startOnvifServer();
+		void stopOnvifServer();
+	private:
+		COnvifServ();
+		virtual ~COnvifServ();
+		static COnvifServ* m_cOnvifInc;
+
+	
 
 };
 
