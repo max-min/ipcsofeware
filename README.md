@@ -1,4 +1,4 @@
-# ipcsofeware
+# ipcsoftware
 For IPCamera Framework
 
 不依赖于底层驱动，实现上层的的一些IPcamera的的实现框架。后面在业余时间下逐步细化功能点。
